@@ -21,8 +21,12 @@ MEDIA_URL = '/media/'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+UPLOADS_ROOT = os.path.join(MEDIA_ROOT, 'uploads')
+CSV_ROOT = os.path.join(MEDIA_ROOT, 'csv')
 CADASTRAL_BLOCK_UPLOAD_TO = 'uploads/cadastral_blocks'
 CADASTRAL_BLOCK_FILE_UPLOAD_DIR = os.path.join(MEDIA_ROOT, CADASTRAL_BLOCK_UPLOAD_TO)
+CADASTRAL_BLOCKS_CSV_DIR = os.path.join(CSV_ROOT, 'cadastral_blocks')
+PARCELS_CSV_DIR = os.path.join(CSV_ROOT, 'parcels')
 
 
 # Quick-start development settings - unsuitable for production

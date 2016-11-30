@@ -71,7 +71,7 @@ class CadastralBlock(TimestampsModel):
             new_parcel.save()
 
     def store_parcel_paths_as_csv(self, output_file_path):
-        with open(output_file_path, 'wb') as csvfile:
+        with open(output_file_path, 'wt') as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow(['cadastral_number', 'su_nmb', 'x', 'y'])
             for parcel in self.parcels.all():
@@ -79,8 +79,12 @@ class CadastralBlock(TimestampsModel):
                     csv_writer.writerow([parcel['cadastral_number'],
                                          point['su_nmb'], point['x'], point['y']])
 
-    def get_csv_representation_file(self):
-        raise NotImplementedError
+    def get_csv_representation_file_path(self, force_creation=False):
+        file_path = os.path.join(settings.CADASTRAL_BLOCKS_CSV_DIR,
+                                 self.cadastral_number.replace(':', '_') + '.csv')
+        if force_creation or not os.path.exists(file_path):
+            self.store_parcel_paths_as_csv(file_path)
+        return file_path
 
 
 class Parcel(TimestampsModel):
@@ -107,12 +111,17 @@ class Parcel(TimestampsModel):
         return json.loads(self.path_json) if self.path_json else []
 
     def store_path_as_csv(self, output_file_path):
-        with open(output_file_path, 'wb') as csvfile:
+        with open(output_file_path, 'wt') as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow(['su_nmb', 'x', 'y'])
             for point in self.path:
                 csv_writer.writerow([point['su_nmb'], point['x'], point['y']])
 
-    def get_csv_representation_file(self):
-        raise NotImplementedError
+    def get_csv_representation_file_path(self, force_creation=False):
+        file_path = os.path.join(settings.PARCELS_CSV_DIR,
+                                 self.cadastral_number.replace(':', '_') + '.csv')
+        if force_creation or not os.path.exists(file_path):
+            self.store_path_as_csv(file_path)
+        return file_path
+        
 
