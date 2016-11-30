@@ -1,0 +1,15 @@
+{% load i18n %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{% block title %}{% trans "Parcels" %}{% endblock %}</title>
+    </head>
+    <body>
+        <header></header>
+        {% block content %}{% endblock %}
+        <footer>
+            Made by <a href="https://gbezyuk.github.io">Grigoriy Beziuk</a><br/>
+            Powered by <a href="https://djangoproject.com">Django</a>
+        </footer>
+    </body>
+</html>

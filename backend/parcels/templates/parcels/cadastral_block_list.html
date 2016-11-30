@@ -1,1 +1,14 @@
-cadastral block list
+{% extends 'layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Cadastral Blocks" %} - {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Cadastral Blocks" %}</h1>
+
+    <a href="{% url 'cadastral_block_upload' %}">{% trans "Upload New" %}</a>
+
+    <ul>{% for block in blocks %}
+        <li><a href="{{ block.get_absolute_url }}">{{ block }}</a></li>
+    {% endfor %}</ul>
+{% endblock %}

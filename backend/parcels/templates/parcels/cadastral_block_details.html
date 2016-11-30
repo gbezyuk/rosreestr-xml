@@ -1,1 +1,13 @@
-cadastral block details
+{% extends 'layout.html' %}
+{% load i18n %}
+
+{% block title %}{{ block }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{{ block }}</h1>
+    <p>
+        {% trans "created" %}: {{ block.created }}
+        {% trans "modified" %}: {{ block.modified }}
+        {% trans "original file name" %}: {{ block.original_file_name }}
+    </p>    
+{% endblock %}

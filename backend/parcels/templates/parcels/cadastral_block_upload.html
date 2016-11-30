@@ -1,1 +1,13 @@
-cadastral block upload
+{% extends 'layout.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Upload New Cadastral Block" %} - {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Upload New Cadastral Block" %}</h1>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form }}
+        <button type="submit">{% trans "Upload" %}</button>
+    </form>
+{% endblock %}
