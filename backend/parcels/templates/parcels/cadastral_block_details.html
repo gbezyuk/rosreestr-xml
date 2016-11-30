@@ -3,9 +3,15 @@
 
 {% block title %}{{ cadastral_block }} - {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'cadastral_block_list' %}">{% trans "Cadastral Blocks" %}</a>
+{% endblock %}
+
 {% block content %}
     <h1>{{ cadastral_block }}</h1>
     <dl>
+        <dt>{% trans "cadastral number" %}</dt>
+        <dd>{{ cadastral_block.cadastral_number }}</dd>
         <dt>{% trans "created" %}</dt>
         <dd>{{ cadastral_block.created }}</dd>
         <dt>{% trans "modified" %}</dt>

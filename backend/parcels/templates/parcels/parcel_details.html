@@ -4,5 +4,17 @@
 {% block title %}{{ parcel }} - {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ block }}</h1>
+    <h1>{{ parcel }}</h1>
+    <dl>
+        <dt>{% trans "cadastral number" %}</dt>
+        <dd>{{ parcel.cadastral_number }}</dd>
+        <dt>{% trans "created" %}</dt>
+        <dd>{{ parcel.created }}</dd>
+        <dt>{% trans "modified" %}</dt>
+        <dd>{{ parcel.modified }}</dd>
+        <dt>{% trans "cadastral block" %}</dt>
+        <dd><a href="{{ parcel.block.get_absolute_url }}">{{ parcel.block }}</a></dd>
+        <dt>{% trans "utilization" %}</dt>
+        <dd>{{ parcel.utilization }}</dd>
+    </dl>
 {% endblock %}

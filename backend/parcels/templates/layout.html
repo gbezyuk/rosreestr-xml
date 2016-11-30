@@ -5,12 +5,29 @@
         <title>{% block title %}{% trans "Parcels" %}{% endblock %}</title>
     </head>
     <body>
-        <header></header>
-        {% block content %}{% endblock %}
+        <header>
+            <a href="/"><h1>{% trans "RosReestr Xml Parcels" %}</h1></a>
+            <nav>
+                <a href="{% url 'cadastral_block_list' %}">{% trans "Cadastral Blocks" %}</a>
+                {% comment %}<a href="{% url 'parcel_list' %}">{% trans "Parcels" %}</a>{% endcomment %}
+            </nav>
+        </header>
+        <div class="wrapper">
+            <nav class="breadcrumbs">{% block breadcrumbs %}{% endblock %}</nav>
+            <div class="content">{% block content %}{% endblock %}</div>
+        </div>
         <footer>
-            &copy; 2016-2017<br>
-            {% trans "Developed by" %} <a href="https://gbezyuk.github.io">{% trans "Grigoriy Beziuk" %}</a><br/>
-            {% trans "Powered by" %} <a href="https://djangoproject.com">Django</a>
+            <nav>
+                <a href="{% url 'cadastral_block_list' %}">{% trans "Cadastral Blocks" %}</a>
+                {% comment %}<a href="{% url 'parcel_list' %}">{% trans "Parcels" %}</a>{% endcomment %}
+            </nav>
+            <div class="credits">
+                &copy; 2016-2017<br>
+                {% trans "Developed by" %} <a href="https://gbezyuk.github.io">{% trans "Grigoriy Beziuk" %}</a><br>            
+                {% trans "Source code is available on" %} <a href="https://github.com/gbezyuk/rosreestr-xml">GitHub</a><br>
+                {% trans "Powered by" %} <a href="https://djangoproject.com">Django</a>
+                and <a href="https://github.com/martinblech/xmltodict">XmlToDict</a>
+            </div>
         </footer>
     </body>
 </html>

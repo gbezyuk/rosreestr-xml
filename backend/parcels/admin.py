@@ -6,11 +6,16 @@ class TimestampsAdmin(admin.ModelAdmin):
     list_display = ('id', '__str__', 'created', 'modified')
     list_display_links = ('id', '__str__')
 
+
 @admin.register(Parcel)
 class ParcelAdmin(TimestampsAdmin):
     pass
 
 
+class ParcelInline(admin.TabularInline):
+    model = Parcel
+
+
 @admin.register(CadastralBlock)
 class CadastralBlockAdmin(TimestampsAdmin):
-    pass
+    inlines = [ParcelInline]

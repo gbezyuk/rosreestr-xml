@@ -3,6 +3,10 @@
 
 {% block title %}{% trans "Upload New Cadastral Block" %} - {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'cadastral_block_list' %}">{% trans "Cadastral Blocks" %}</a>
+{% endblock %}
+
 {% block content %}
     <h1>{% trans "Upload New Cadastral Block" %}</h1>
 
