@@ -21,6 +21,7 @@ def cadastral_block_csv(request, id):
                             content=open(cadastral_block.get_csv_representation_file_path(), 'rt'))
     response['Content-Disposition'] = 'attachment; filename="%s.csv"' %\
                                       cadastral_block.cadastral_number.replace(':', '_')
+    return response
 
 
 @csrf_exempt

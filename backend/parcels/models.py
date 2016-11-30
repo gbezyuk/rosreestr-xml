@@ -76,13 +76,13 @@ class CadastralBlock(TimestampsModel):
             csv_writer.writerow(['cadastral_number', 'su_nmb', 'x', 'y'])
             for parcel in self.parcels.all():
                 for point in parcel.path:
-                    csv_writer.writerow([parcel['cadastral_number'],
+                    csv_writer.writerow([parcel.cadastral_number,
                                          point['su_nmb'], point['x'], point['y']])
 
     def get_csv_representation_file_path(self, force_creation=False):
         file_path = os.path.join(settings.CADASTRAL_BLOCKS_CSV_DIR,
                                  self.cadastral_number.replace(':', '_') + '.csv')
-        if force_creation or not os.path.exists(file_path):
+        if force_creation or not os.path.isfile(file_path):
             self.store_parcel_paths_as_csv(file_path)
         return file_path
 
@@ -120,8 +120,6 @@ class Parcel(TimestampsModel):
     def get_csv_representation_file_path(self, force_creation=False):
         file_path = os.path.join(settings.PARCELS_CSV_DIR,
                                  self.cadastral_number.replace(':', '_') + '.csv')
-        if force_creation or not os.path.exists(file_path):
+        if force_creation or not os.path.isfile(file_path):
             self.store_path_as_csv(file_path)
         return file_path
-        
-
