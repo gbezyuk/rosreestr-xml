@@ -25,7 +25,7 @@ SECRET_KEY = '6_ks46#c=x(nr(=nrts@552&pdn#jj=l=w04x7yl=mf*vcqk1e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*.gbezyuk.ru']
 
 
 # Application definition
