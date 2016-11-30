@@ -14,6 +14,7 @@ class TimestampsModel(models.Model):
 class OriginalDocument(TimestampsModel):
     file = models.FileField(verbose_name=_('file'), max_length=500)
     original_file_name = models.CharField(verbose_name=_('original file name'), max_length=100)
+    cadastral_number = models.CharField(verbose_name=_('cadastral number'), max_length=40)
 
 
 class Parcel(TimestampsModel):
@@ -23,4 +24,4 @@ class Parcel(TimestampsModel):
 
     document = models.ForeignKey(to=OriginalDocument, verbose_name=_('document'))
     cadastral_number = models.CharField(verbose_name=_('cadastral number'), max_length=40)
-    json_representation = models.TextField(verbose_name=_('csv representation'))
+    json_representation = models.TextField(verbose_name=_('CSV representation'))
