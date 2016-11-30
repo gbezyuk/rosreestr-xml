@@ -6,8 +6,9 @@
         <link rel="stylesheet" type="text/css" href="/static/css/parcels.css">
     </head>
     <body>
+        <div class="app">
         <header>
-            <a href="/"><h1>{% trans "RosReestr Xml Parcels" %}</h1></a>
+            <a class="logo" href="/"><h1>{% trans "RosReestr Xml Parcels" %}</h1></a>
             <nav>
                 <a href="{% url 'cadastral_block_list' %}">{% trans "Cadastral Blocks" %}</a>
                 {% comment %}<a href="{% url 'parcel_list' %}">{% trans "Parcels" %}</a>{% endcomment %}
@@ -32,5 +33,6 @@
                 and <a href="https://github.com/martinblech/xmltodict">XmlToDict</a>
             </div>
         </footer>
+        </div>
     </body>
 </html>
