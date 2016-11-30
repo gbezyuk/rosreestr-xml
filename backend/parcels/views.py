@@ -5,12 +5,12 @@ from .forms import CadastralBlockFileUploadForm
 
 
 def cadastral_block_list(request, template_name='parcels/cadastral_block_list.html'):
-    blocks = CadastralBlock.objects.all()
+    cadastral_blocks = CadastralBlock.objects.all()
     return render_to_response(template_name, locals())
 
 
 def cadastral_block_details(request, id, template_name='parcels/cadastral_block_details.html'):
-    block = CadastralBlock.objects.get(id=id)
+    cadastral_block = CadastralBlock.objects.get(id=id)
     return render_to_response(template_name, locals())
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-30 14:29+0000\n"
+"POT-Creation-Date: 2016-11-30 14:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,7 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: models.py:8 models.py:54 templates/layout.html:5
+#: templates/parcels/cadastral_block_details.html:16
 msgid "Parcels"
 msgstr "Участки"
 
@@ -37,7 +38,7 @@ msgstr "Кадастровые кварталы"
 msgid "file"
 msgstr "файл"
 
-#: models.py:27 templates/parcels/cadastral_block_details.html:11
+#: models.py:27 templates/parcels/cadastral_block_details.html:13
 msgid "original file name"
 msgstr "оригинальное имя файла"
 
@@ -61,13 +62,29 @@ msgstr "назначение"
 msgid "JSON representation"
 msgstr "JSON-представление"
 
+#: templates/layout.html:11
+msgid "Developed by"
+msgstr "Разработка"
+
+#: templates/layout.html:11
+msgid "Grigoriy Beziuk"
+msgstr "Григорий Безюк"
+
+#: templates/layout.html:12
+msgid "Powered by"
+msgstr "Работает на"
+
 #: templates/parcels/cadastral_block_details.html:9
 msgid "created"
 msgstr "создано"
 
-#: templates/parcels/cadastral_block_details.html:10
+#: templates/parcels/cadastral_block_details.html:11
 msgid "modified"
 msgstr "изменено"
+
+#: templates/parcels/cadastral_block_details.html:21
+msgid "Empty"
+msgstr "Пусто"
 
 #: templates/parcels/cadastral_block_list.html:9
 msgid "Upload New"

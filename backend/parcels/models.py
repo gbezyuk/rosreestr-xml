@@ -13,8 +13,8 @@ class TimestampsModel(models.Model):
         abstract = True
         ordering = ('-modified',)
 
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
+    modified = models.DateTimeField(_('modified'), auto_now=True)
 
 
 class CadastralBlock(TimestampsModel):

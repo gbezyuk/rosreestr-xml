@@ -1,13 +1,24 @@
 {% extends 'layout.html' %}
 {% load i18n %}
 
-{% block title %}{{ block }} - {{ block.super }}{% endblock %}
+{% block title %}{{ cadastral_block }} - {{ block.super }}{% endblock %}
 
 {% block content %}
-    <h1>{{ block }}</h1>
-    <p>
-        {% trans "created" %}: {{ block.created }}
-        {% trans "modified" %}: {{ block.modified }}
-        {% trans "original file name" %}: {{ block.original_file_name }}
-    </p>    
+    <h1>{{ cadastral_block }}</h1>
+    <dl>
+        <dt>{% trans "created" %}</dt>
+        <dd>{{ cadastral_block.created }}</dd>
+        <dt>{% trans "modified" %}</dt>
+        <dd>{{ cadastral_block.modified }}</dd>
+        <dt>{% trans "original file name" %}</dt>
+        <dd>{{ cadastral_block.original_file_name }}</dd>
+    </dl>
+    <h2>{% trans "Parcels" %}:</h2>
+    <ul>
+        {% for parcel in cadastral_block.parcels.all %}
+            <li><a href="{{ parcel.get_absolute_url }}">{{ parcel }}</a></li>
+        {% empty %}
+            <li>{% trans "Empty" %}</li>        
+        {% endfor %}
+    </ul>    
 {% endblock %}

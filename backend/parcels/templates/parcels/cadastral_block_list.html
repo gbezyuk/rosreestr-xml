@@ -8,7 +8,7 @@
 
     <a href="{% url 'cadastral_block_upload' %}">{% trans "Upload New" %}</a>
 
-    <ul>{% for block in blocks %}
-        <li><a href="{{ block.get_absolute_url }}">{{ block }}</a></li>
+    <ul>{% for cadastral_block in cadastral_blocks %}
+        <li><a href="{{ cadastral_block.get_absolute_url }}">{{ cadastral_block }}</a></li>
     {% endfor %}</ul>
 {% endblock %}
