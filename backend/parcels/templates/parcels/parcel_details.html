@@ -5,6 +5,7 @@
 
 {% block content %}
     <h1>{{ parcel }}</h1>
+    <a href="{{ parcel.get_csv_url }}">{% trans "Download as CSV" %}</a>
     <dl>
         <dt>{% trans "cadastral number" %}</dt>
         <dd>{{ parcel.cadastral_number }}</dd>

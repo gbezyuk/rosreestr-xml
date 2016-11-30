@@ -9,6 +9,7 @@
 
 {% block content %}
     <h1>{{ cadastral_block }}</h1>
+    <a href="{{ cadastral_block.get_csv_url }}">{% trans "Download as CSV" %}</a>
     <dl>
         <dt>{% trans "cadastral number" %}</dt>
         <dd>{{ cadastral_block.cadastral_number }}</dd>
@@ -22,7 +23,10 @@
     <h2>{% trans "Parcels" %}:</h2>
     <ul>
         {% for parcel in cadastral_block.parcels.all %}
-            <li><a href="{{ parcel.get_absolute_url }}">{{ parcel }}</a></li>
+            <li>
+                <a href="{{ parcel.get_absolute_url }}">{{ parcel }}</a>
+                <a href="{{ parcel.get_csv_url }}">[{% trans "CSV" %}]</a>
+            </li>
         {% empty %}
             <li>{% trans "Empty" %}</li>        
         {% endfor %}

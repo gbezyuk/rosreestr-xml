@@ -14,6 +14,11 @@ def cadastral_block_details(request, id, template_name='parcels/cadastral_block_
     return render_to_response(template_name, locals())
 
 
+def cadastral_block_csv(request, id):
+    cadastral_block = CadastralBlock.objects.get(id=id)
+    cadastral_block.get_csv_representation_file()
+
+
 @csrf_exempt
 def cadastral_block_upload(request, template_name='parcels/cadastral_block_upload.html'):
     if request.method == 'POST':
@@ -29,3 +34,9 @@ def cadastral_block_upload(request, template_name='parcels/cadastral_block_uploa
 def parcel_details(request, id, template_name='parcels/parcel_details.html'):
     parcel = Parcel.objects.get(id=id)
     return render_to_response(template_name, locals())
+
+
+def parcel_csv(request, id):
+    parcel = Parcel.objects.get(id=id)
+    parcel.get_csv_representation_file()
+    

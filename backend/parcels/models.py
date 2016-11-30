@@ -4,6 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 import json
 import os
+import csv
 from .parser import get_parcels_and_metadata, store_as_csv
 
 
@@ -33,6 +34,9 @@ class CadastralBlock(TimestampsModel):
 
     def get_absolute_url(self):
         return reverse('cadastral_block_details', args=[str(self.id)])
+
+    def get_csv_url(self):
+        return reverse('cadastral_block_csv', args=[str(self.id)])
 
     @staticmethod
     def handle_uploaded_file(file_object):
@@ -66,6 +70,18 @@ class CadastralBlock(TimestampsModel):
             new_parcel.path_json = json.dumps(parcel_data['path'], sort_keys=True, indent=4)
             new_parcel.save()
 
+    def store_parcel_paths_as_csv(self, output_file_path):
+        with open(output_file_path, 'wb') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(['cadastral_number', 'su_nmb', 'x', 'y'])
+            for parcel in self.parcels.all():
+                for point in parcel.path:
+                    csv_writer.writerow([parcel['cadastral_number'],
+                                         point['su_nmb'], point['x'], point['y']])
+
+    def get_csv_representation_file(self):
+        raise NotImplementedError
+
 
 class Parcel(TimestampsModel):
     class Meta(TimestampsModel.Meta):
@@ -82,3 +98,21 @@ class Parcel(TimestampsModel):
 
     def get_absolute_url(self):
         return reverse('parcel_details', args=[str(self.id)])
+
+    def get_csv_url(self):
+        return reverse('parcel_csv', args=[str(self.id)])
+
+    @property
+    def path(self):
+        return json.loads(self.path_json) if self.path_json else []
+
+    def store_path_as_csv(self, output_file_path):
+        with open(output_file_path, 'wb') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            csv_writer.writerow(['su_nmb', 'x', 'y'])
+            for point in self.path:
+                csv_writer.writerow([point['su_nmb'], point['x'], point['y']])
+
+    def get_csv_representation_file(self):
+        raise NotImplementedError
+
