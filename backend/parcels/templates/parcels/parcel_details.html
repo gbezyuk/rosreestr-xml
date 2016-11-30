@@ -3,6 +3,11 @@
 
 {% block title %}{{ parcel }} - {{ block.super }}{% endblock %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'cadastral_block_list' %}">{% trans "Cadastral Blocks" %}</a>
+    <a href="{% url 'cadastral_block_details' parcel.block.id %}">{{ parcel.block }}</a>
+{% endblock %}
+
 {% block content %}
     <h1>{{ parcel }}</h1>
     <a href="{{ parcel.get_csv_url }}">{% trans "Download as CSV" %}</a>
