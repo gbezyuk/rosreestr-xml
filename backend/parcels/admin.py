@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Parcel, OriginalDocument
+from .models import Parcel, CadastralBlock
 
 
 class TimestampsAdmin(admin.ModelAdmin):
@@ -11,6 +11,6 @@ class ParcelAdmin(TimestampsAdmin):
     pass
 
 
-@admin.register(OriginalDocument)
-class OriginalDocumentAdmin(TimestampsAdmin):
+@admin.register(CadastralBlock)
+class CadastralBlockAdmin(TimestampsAdmin):
     pass
