@@ -5,6 +5,9 @@ from django.urls import reverse
 import os
 
 
+_("Parcels")
+
+
 class TimestampsModel(models.Model):
     class Meta:
         abstract = True
