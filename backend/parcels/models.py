@@ -30,7 +30,11 @@ class CadastralBlock(TimestampsModel):
                                         max_length=40, null=True, blank=True)
 
     def __str__(self):
-        return __("Cadastral block %s (%d)" % (self.cadastral_number or '', self.id))
+        _("Block %(cadastral_number)s (%(id)d)")  # for translation
+        return __("Block %(cadastral_number)s (%(id)d)" % {
+            'cadastral_number': self.cadastral_number or '',
+            'id': self.id
+        })
 
     def get_absolute_url(self):
         return reverse('cadastral_block_details', args=[str(self.id)])
@@ -98,7 +102,11 @@ class Parcel(TimestampsModel):
     path_json = models.TextField(verbose_name=_('path JSON'))
 
     def __str__(self):
-        return __("Parcel %s (%d)" % (self.cadastral_number or '', self.id))
+        _("Parcel %(cadastral_number)s (%(id)d)") # for translation
+        return __("Parcel %(cadastral_number)s (%(id)d)" % {
+            'cadastral_number': self.cadastral_number or '',
+            'id': self.id
+        })
 
     def get_absolute_url(self):
         return reverse('parcel_details', args=[str(self.id)])

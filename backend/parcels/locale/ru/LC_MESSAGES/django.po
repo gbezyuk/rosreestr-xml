@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-30 17:44+0000\n"
+"POT-Creation-Date: 2016-11-30 18:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,26 +20,26 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps.py:7 models.py:73 templates/layout.html:5
-#: templates/parcels/cadastral_block_details.html:22
+#: apps.py:7 models.py:97 templates/layout.html:5
+#: templates/parcels/cadastral_block_details.html:23
 msgid "Parcels"
 msgstr "Участки"
 
-#: models.py:15 templates/parcels/cadastral_block_details.html:15
-#: templates/parcels/parcel_details.html:11
+#: models.py:16 templates/parcels/cadastral_block_details.html:16
+#: templates/parcels/parcel_details.html:12
 msgid "created"
 msgstr "создано"
 
-#: models.py:16 templates/parcels/cadastral_block_details.html:17
-#: templates/parcels/parcel_details.html:13
+#: models.py:17 templates/parcels/cadastral_block_details.html:18
+#: templates/parcels/parcel_details.html:14
 msgid "modified"
 msgstr "изменено"
 
-#: models.py:21
+#: models.py:22
 msgid "Cadastral Block"
 msgstr "Кадастровый квартал"
 
-#: models.py:22 templates/layout.html:11 templates/layout.html:22
+#: models.py:23 templates/layout.html:12 templates/layout.html:23
 #: templates/parcels/cadastral_block_details.html:7
 #: templates/parcels/cadastral_block_list.html:4
 #: templates/parcels/cadastral_block_list.html:7
@@ -47,60 +47,80 @@ msgstr "Кадастровый квартал"
 msgid "Cadastral Blocks"
 msgstr "Кадастровые кварталы"
 
-#: models.py:24
+#: models.py:25
 msgid "file"
 msgstr "файл"
 
-#: models.py:26 templates/parcels/cadastral_block_details.html:19
+#: models.py:27 templates/parcels/cadastral_block_details.html:20
 msgid "original file name"
 msgstr "оригинальное имя файла"
 
-#: models.py:27
+#: models.py:28
 msgid "original file size"
 msgstr "размер оригинального файла"
 
-#: models.py:28 models.py:76 templates/parcels/cadastral_block_details.html:13
-#: templates/parcels/parcel_details.html:9
+#: models.py:29 models.py:100 templates/parcels/cadastral_block_details.html:14
+#: templates/parcels/parcel_details.html:10
 msgid "cadastral number"
 msgstr "кадастровый номер"
 
-#: models.py:72
+#: models.py:33
+#, python-format
+msgid "Block %(cadastral_number)s (%(id)d)"
+msgstr "Квартал %(cadastral_number)s (%(id)d)"
+
+#: models.py:96
 msgid "Parcel"
 msgstr "Участок"
 
-#: models.py:75
+#: models.py:99
 msgid "block"
 msgstr "квартал"
 
-#: models.py:77 templates/parcels/parcel_details.html:17
+#: models.py:101 templates/parcels/parcel_details.html:18
 msgid "utilization"
 msgstr "назначение"
 
-#: models.py:78
+#: models.py:102
 msgid "path JSON"
 msgstr "геоданные в JSON"
 
-#: templates/layout.html:9
+#: models.py:105
+#, python-format
+msgid "Parcel %(cadastral_number)s (%(id)d)"
+msgstr "Участок %(cadastral_number)s (%(id)d)"
+
+#: templates/layout.html:10
 msgid "RosReestr Xml Parcels"
 msgstr "XML-Парсер Участков РосРеестра"
 
-#: templates/layout.html:28
+#: templates/layout.html:29
 msgid "Developed by"
 msgstr "Разработка"
 
-#: templates/layout.html:28
+#: templates/layout.html:29
 msgid "Grigoriy Beziuk"
 msgstr "Григорий Безюк"
 
-#: templates/layout.html:29
+#: templates/layout.html:30
 msgid "Source code is available on"
 msgstr "Исходный код лежит на"
 
-#: templates/layout.html:30
+#: templates/layout.html:31
 msgid "Powered by"
 msgstr "Работает на"
 
-#: templates/parcels/cadastral_block_details.html:27
+#: templates/parcels/cadastral_block_details.html:12
+#: templates/parcels/parcel_details.html:8
+msgid "Download as CSV"
+msgstr "Скачать как CSV"
+
+#: templates/parcels/cadastral_block_details.html:28
+#: templates/parcels/cadastral_block_list.html:14
+msgid "CSV"
+msgstr "CSV"
+
+#: templates/parcels/cadastral_block_details.html:31
 msgid "Empty"
 msgstr "Пусто"
 
@@ -117,9 +137,15 @@ msgstr "Загрузить новый кадастровый квартал"
 msgid "Upload"
 msgstr "Загрузить"
 
-#: templates/parcels/parcel_details.html:15
+#: templates/parcels/parcel_details.html:16
 msgid "cadastral block"
 msgstr "кадастровый квартал"
+
+#~ msgid "Block %s (%d)"
+#~ msgstr "Квартал %s"
+
+#~ msgid "Parcel %s (%d)"
+#~ msgstr "Участок %s (%d)"
 
 #~ msgid "document"
 #~ msgstr "документ"
