@@ -22,6 +22,10 @@ Storing CSV file DONE
 
 See `./parse.py -h` for more information on parameters.
 
+### HTML/JSON document representation
+
+Use `-i filename.html` to produce a devtools-inspectable JSON representation of the original XML document.  
+
 ## Django-based Web Application
 
 Development (or local usage) setup:
