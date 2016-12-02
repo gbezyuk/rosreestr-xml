@@ -18,16 +18,30 @@ class TimestampsModel(models.Model):
 
 
 class CadastralBlock(TimestampsModel):
+    
     class Meta(TimestampsModel.Meta):
         verbose_name = _('Cadastral Block')
         verbose_name_plural = _('Cadastral Blocks')
+
+    STATUS_CHOICES = (
+        ('new', _('New')),
+        ('uploaded', _('XML uploaded')),
+        ('parsed', _('XML parsed')),
+        ('exported', _('CSV exported')),
+    )
 
     file = models.FileField(verbose_name=_('file'), max_length=500,
                             upload_to=settings.CADASTRAL_BLOCK_UPLOAD_TO)
     original_file_name = models.CharField(verbose_name=_('original file name'), max_length=100)
     original_file_size = models.PositiveIntegerField(verbose_name=_('original file size'))
+    
+    root_node_name = models.CharField(verbose_name=_('root node name'), max_length=10,
+                                      null=True, blank=True)
     cadastral_number = models.CharField(verbose_name=_('cadastral number'),
                                         max_length=40, null=True, blank=True)
+
+    status = models.CharField(verbose_name=_('status'), max_length=20,
+                              choices=STATUS_CHOICES, default='new')
 
     def __str__(self):
         _("Block %(cadastral_number)s (%(id)d)")  # for translation
@@ -54,6 +68,7 @@ class CadastralBlock(TimestampsModel):
         new_block.file = os.path.join(settings.CADASTRAL_BLOCK_UPLOAD_TO, file_object.name)
         new_block.original_file_name = file_object.name
         new_block.original_file_size = file_object.size
+        new_block.status = 'uploaded'
         new_block.save()
         new_block.parse_file()
         return new_block
@@ -64,15 +79,17 @@ class CadastralBlock(TimestampsModel):
 
     def parse_file(self):
         parcels, metadata = get_parcels_and_metadata(self.full_file_path)
-        self.cadastral_number = metadata['cadastral_number']
-        self.save()
+        self.cadastral_number = metadata['cadastral_number']        
+        self.root_node_name = metadata['root_node_name']
         for parcel_data in parcels:
             new_parcel = Parcel()
             new_parcel.block = self
             new_parcel.cadastral_number = parcel_data['cadastral_number']
             new_parcel.utilization = parcel_data['utilization']
-            new_parcel.path_json = json.dumps(parcel_data['path'], sort_keys=True, indent=4)
+            new_parcel.path_json = json.dumps(parcel_data['path'], sort_keys=True, indent=4)            
             new_parcel.save()
+        self.status = 'parsed'
+        self.save()
 
     def store_parcel_paths_as_csv(self, output_file_path):
         with open(output_file_path, 'wt') as csvfile:
@@ -88,6 +105,8 @@ class CadastralBlock(TimestampsModel):
                                  self.cadastral_number.replace(':', '_') + '.csv')
         if force_creation or not os.path.isfile(file_path):
             self.store_parcel_paths_as_csv(file_path)
+            self.status = 'exported'
+            self.save()
         return file_path
 
 
