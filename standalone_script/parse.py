@@ -10,10 +10,15 @@ def dump_dict_to_json(data):
     return json.dumps(data, sort_keys=True, indent=4)
 
 
+def find_parcel_node(data):
+    if 'KPT' in data:
+        return data['KPT']['CadastralBlocks']['CadastralBlock']['Parcels']['Parcel']
+    if 'KVZU' in data:
+        return data['KVZU']['Parcels']['Parcel']
+
+
 def get_raw_parcels(data):
-    return [parcel for parcel in data['KPT']['CadastralBlocks']['CadastralBlock']['Parcels']['Parcel']
-        if 'EntitySpatial' in parcel
-    ]
+    return [parcel for parcel in find_parcel_node(data) if 'EntitySpatial' in parcel]
 
 
 def clean_parcels(raw_parcels):
@@ -55,7 +60,8 @@ if __name__ == '__main__':
     parser.add_argument("input_file_path", help="input xml file to parse", type=str)
     parser.add_argument("-c", "--csv_output_file_path", help="output csv file to export data", type=str)
     parser.add_argument("-j", "--json_output_file_path", help="output csv file to export data", type=str)
-    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+    parser.add_argument("-H", "--html_output_file_path", help="create an html file with navigateable JSON representation", type=str)
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")    
     args = parser.parse_args()
 
     if args.verbose:
@@ -71,6 +77,23 @@ if __name__ == '__main__':
             jsonfile.write(dump_dict_to_json(document_as_dict))
         if args.verbose:
             print("Storing JSON file DONE")
+
+    if args.html_output_file_path:
+        if args.verbose:
+            print("Storing HTML file...")
+        if args.verbose:
+            with open(args.html_output_file_path, 'wt') as htmlfile:
+                htmlfile.write("""<html>
+<head></head>
+<body>
+<p>use <b>window.data</b> in console</p>
+<script type="text/javascript">
+window.data = %s;
+</script>
+</body>
+</html>
+                """ % (dump_dict_to_json(document_as_dict,)))
+            print("Storing HTML file DONE")
 
     if args.csv_output_file_path:
         if args.verbose:
