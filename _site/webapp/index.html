@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>XML-Парсер Участков РосРеестра</title>
+    <title>Web-приложение</title>
     <meta name="description" content="https://github.com/gbezyuk/rosreestr-xml documenation site.
 ">
 
     <link rel="stylesheet" href="/rosreestr-xml/css/main.css">
-    <link rel="canonical" href="http://gbezyuk.github.io/rosreestr-xml/">
+    <link rel="canonical" href="http://gbezyuk.github.io/rosreestr-xml/webapp/">
 </head>
 
 
@@ -62,31 +62,55 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <!--<h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Web-приложение</h1>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Dec 2, 2016</span>
+  <article class="post-content">
+    <p>Полезная нагрузка web-приложения основывается на коде standalone-парсера, и добавляет к нему полноценный web-интерфейс.
+Я использовал для реализации Django — кажущийся overengineering с лихвой компенсируется моим опытом с этим фреймворком,
+а в качестве приятного бонуса мы получаем и удобную админку, и возможности по очень гибкому развитию проекта.</p>
 
-        <h2>
-          <a class="post-link" href="/rosreestr-xml/jekyll/update/2016/12/02/welcome-to-jekyll.html">Welcome to Jekyll!</a>
-        </h2>
-      </li>
-    
-  </ul>-->
+<p>Инструкция по запуску находится в файле <code>backend/README.md</code>. Повторим её здесь:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>backend
+virtualenv -p <span class="sb">`</span>which python3<span class="sb">`</span> venv
+. venv/activate
+pip install -r requirements.txt
+./manage.py migrate
+./manage.py runserver_plus
+<span class="c"># откройте в браузере основной интерфейс http://localhost:8000</span>
+<span class="c"># и/или админку базы данных через http://localhost:8000/admin/</span>
+<span class="c"># (используйте ./manage.py createsuperuser для создания пользователя)</span>
+</code></pre></div>
+<h2>Модели</h2>
 
-  <!--<p class="rss-subscribe">subscribe <a href="/rosreestr-xml/feed.xml">via RSS</a></p>-->
+<p>В файле <code>parcels/models.py</code> можно обнаружить две основные модели:</p>
 
-  <h1>Документация для RosReestr-XML</h1>
+<ul>
+<li><code>CadastralBlock</code> — кадастровую запись о квартале (или аналогичной территории, кадастровому блоку).
+Практически она соответствует одному загружаемому XML-файлу.</li>
+<li><code>Parcel</code> — собственно участок с информацией о его геометрии (в виде <code>JSONField</code>, точнее его совсем
+простецкой SQLite-эмуляции).</li>
+</ul>
 
-  <ul class="index-navigation">
-    <li><a href="/rosreestr-xml/motivation/">Мотивация</a></li>
-    <li><a href="/rosreestr-xml/standalone-script/">Standalone-скрипт</a></li>
-    <li><a href="/rosreestr-xml/webapp/">Web-приложение</a></li>
-  </ul>
+<p>Обе модели умеют сохраняться в формате <code>csv</code> с учётом кеширования файлов. <code>CadastralBlock</code> кроме того
+содержит статический метод для парсинга входных файлов.</p>
+
+<p>В файле <code>parcels/admin.py</code> содержится декларативная конфигурация админки для этих моделей.</p>
+
+<h2>Парсинг</h2>
+
+<p>В файле <code>parcels/parser.py</code> содержится немного модифицированный код standalone-парсера. Основное отличие
+состоит в том, что он извлекает не только <code>parcels</code>, но и метаданные о <code>cadastral block</code>.</p>
+
+<h2>Web-интерфейс</h2>
+
+<p>В файлах <code>urls.py</code> и <code>views.py</code> содержится код, организующий логику web-интерфейса; в папках <code>templates</code>
+и <code>static</code> — соответственно html-шаблоны и css-стили этого интерфейса.</p>
+
+  </article>
 
 </div>
 
