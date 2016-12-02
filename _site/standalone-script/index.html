@@ -69,40 +69,43 @@
   </header>
 
   <article class="post-content">
-    <h2>Парсинг</h2>
+    <h2 id="section">Парсинг</h2>
 
-<p>XML-ки на вход приходят небольшие, поэтому чем париться с SAX- или DOM-парсингом — проще сразу сконвертировать
-в python dictionary (благодаря (xmltodict)[https://github.com/martinblech/xmltodict] с этим проблем нет) и уже
-этот словарь дальше анализировать. Доступа ко всей РосРеестровской машинерии для XML-преобразований всё равно нет.</p>
+<p>XML-ки на вход приходят небольшие, поэтому чем париться с SAX- или DOM-парсингом — проще сразу сконвертировать в python dictionary, тем более что благодаря <a href="https://github.com/martinblech/xmltodict">xmltodict</a> с этим проблем не возникает; и уже этот словарь дальше анализировать. Доступа ко всей РосРеестровской машинерии для XML-преобразований всё равно нет.</p>
 
-<p>Python dictionary — это почти то же самое, что и JSON. Поэтому анализировать удобнее всего через Developer Tools
-какого-нибудь браузера. Скрипт умеет не просто выплёвывать JSON, но заворачивать его в html-файл с доступом к
-данным через <code>window.data</code> в консоли:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>standalone-script
+<p>Python dictionary — это почти то же самое, что и JSON. Поэтому анализировать удобнее всего через Developer Tools какого-нибудь браузера. Скрипт умеет не просто выплёвывать JSON, но заворачивать его в html-файл с доступом к данным через <code>window.data</code> в консоли:</p>
+
+<pre><code class="language-bash">cd standalone-script
 ./parse.py -i instectable-data.html your_input_data.xml
-<span class="c"># на выходе будет файлик instectable-data.html, который можно</span>
-<span class="c"># открыть в браузере и в консоли пристально рассмотреть переменную `data` </span>
-</code></pre></div>
+# на выходе будет файлик instectable-data.html, который можно
+# открыть в браузере и в консоли пристально рассмотреть переменную `data` 
+</code></pre>
+
 <p>Эта возможность полезна для отладки при добавлении нового функционала. Форматов-то у РосРеестра, как оказалось, больше одного =)</p>
 
-<h2>Экспорт JSON</h2>
+<h2 id="json">Экспорт JSON</h2>
 
 <p>Если хочется сохранить JSON-дамп документа целиком, используйте параметр <code>-j</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./parse.py ./data-samples/doc14350111.xml -j ./output.json
-</code></pre></div>
+
+<pre><code class="language-bash">./parse.py ./data-samples/doc14350111.xml -j ./output.json
+</code></pre>
+
 <p>На выходе будет JSON-представление оригинального XML-документа целиком. </p>
 
-<h2>Экспорт CSV</h2>
+<h2 id="csv">Экспорт CSV</h2>
 
 <p>Собственно полезной нагрузкой является вытаскивание из XML-файлов информации об участках и её экспорт в CSV:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">./parse.py ./data-samples/doc14350111.xml -c ./output.csv -v
-</code></pre></div>
+
+<pre><code class="language-bash">./parse.py ./data-samples/doc14350111.xml -c ./output.csv -v
+</code></pre>
+
 <p>Здесь мы уже получаем только нужную информацию.</p>
 
-<h2>Многословный режим</h2>
+<h2 id="section-1">Многословный режим</h2>
 
 <p>Флаг <code>--verbose</code> (или сокращённо <code>-v</code>) включает отображение подробной информации о ходе работы скрипта:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">➜  ./parse.py ./data-samples/doc14350111.xml -j ./test.json -c ./test.csv -H test.html -v
+
+<pre><code class="language-bash">➜  ./parse.py ./data-samples/doc14350111.xml -j ./test.json -c ./test.csv -H test.html -v
 Parsing original document...
 Parsing original document DONE
 Storing JSON file...
@@ -113,34 +116,37 @@ Extracting Parcels...
 Extracting Parcels DONE
 Storing CSV file...
 Storing CSV file DONE
-</code></pre></div>
-<h2>Внутреннее устройство</h2>
+</code></pre>
+
+<h2 id="section-2">Внутреннее устройство</h2>
 
 <p>Архитектурой внутреннее устройства скрипта назвать было бы слишком уж громко, так что обойдёмся словами попроще.</p>
 
 <p>В файле <code>parse.py</code> расположен целый ряд функций с вполне говорящими названиями:</p>
 
 <ul>
-<li>parse<em>to</em>dict(file_path) - превращает xml-файл в python dictionary</li>
-<li>dump<em>dict</em>to_json(data) — сохраняет словарь в красиво отформатированный JSON-файл</li>
-<li>get<em>root</em>node<em>name(file</em>dict) — выясняет, с какого рода файлом мы имеем дело (по имени корневого узла)</li>
-<li>find<em>parcel</em>node(data) — локализует узел с данными по участкам</li>
-<li>get<em>raw</em>parcels(file_dict) — вытаскивает сырые данные об участках</li>
-<li>clean<em>parcels(raw</em>parcels) — очищает сырые данные, оставляя только нужные в понятном формате</li>
-<li>store<em>as</em>csv(parcels, output<em>file</em>path) — сохраняет CSV-файл</li>
+  <li><code>parse_to_dict(file_path)</code> - превращает xml-файл в python dictionary</li>
+  <li><code>dump_dict_to_json(data)</code> — сохраняет словарь в красиво отформатированный JSON-файл</li>
+  <li><code>get_root_node_name(file_dict)</code> — выясняет, с какого рода файлом мы имеем дело (по имени корневого узла)</li>
+  <li><code>find_parcel_node(data)</code> — локализует узел с данными по участкам</li>
+  <li><code>get_raw_parcels(file_dict)</code> — вытаскивает сырые данные об участках</li>
+  <li><code>clean_parcels(raw_parcels)</code> — очищает сырые данные, оставляя только нужные в понятном формате</li>
+  <li><code>store_as_csv(parcels, output_file_path)</code> — сохраняет CSV-файл</li>
 </ul>
 
 <p>Кроме того там содержится код для анализа параметров, с которыми вызывается скрипт, он тоже вполне говорящий.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">argparse</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;input_file_path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;input xml file to parse&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-c&quot;</span><span class="p">,</span> <span class="s">&quot;--csv_output_file_path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;output csv file to export data&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-j&quot;</span><span class="p">,</span> <span class="s">&quot;--json_output_file_path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;output csv file to export data&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-H&quot;</span><span class="p">,</span> <span class="s">&quot;--html_output_file_path&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;create an html file with navigateable JSON representation&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span> <span class="s">&quot;--verbose&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;increase output verbosity&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_true&quot;</span><span class="p">)</span>    
-    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-</code></pre></div>
+
+<pre><code class="language-python">if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input_file_path", help="input xml file to parse", type=str)
+    parser.add_argument("-c", "--csv_output_file_path", help="output csv file to export data", type=str)
+    parser.add_argument("-j", "--json_output_file_path", help="output csv file to export data", type=str)
+    parser.add_argument("-H", "--html_output_file_path", help="create an html file with navigateable JSON representation", type=str)
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")    
+    args = parser.parse_args()
+</code></pre>
+
   </article>
 
 </div>

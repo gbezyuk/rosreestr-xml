@@ -9,6 +9,6 @@ twitter_username: shcoder
 github_username:  gbezyuk
 
 # Build settings
-markdown: redcarpet
-redcarpet:
-  extensions: ["tables", "fenced_code_blocks"]
+markdown: kramdown
+kramdown:
+  input: GFM
