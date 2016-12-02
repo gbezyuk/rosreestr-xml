@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 def parse_to_dict(file_path):
     import xmltodict
     return xmltodict.parse(open(file_path).read())    
@@ -10,7 +11,7 @@ def dump_dict_to_json(data):
     return json.dumps(data, sort_keys=True, indent=4)
 
 
-def _get_root_node_name(file_dict):
+def get_root_node_name(file_dict):
     # return file_dict.keys()[0]
     # results with a "'KeysView' object does not support indexing" error
     # now using workaround below
@@ -26,11 +27,11 @@ def find_parcel_node(data):
         return data['KVZU']['Parcels']['Parcel']
 
 
-def _get_raw_parcels(file_dict):
-    if _get_root_node_name(file_dict) == 'KVZU':
-        return [_find_parcel_node(file_dict)]
-    if _get_root_node_name(file_dict) == 'KPT':
-        return [parcel for parcel in _find_parcel_node(file_dict) if 'EntitySpatial' in parcel]
+def get_raw_parcels(file_dict):
+    if get_root_node_name(file_dict) == 'KVZU':
+        return [find_parcel_node(file_dict)]
+    if get_root_node_name(file_dict) == 'KPT':
+        return [parcel for parcel in find_parcel_node(file_dict) if 'EntitySpatial' in parcel]
     return []
 
 
@@ -56,15 +57,6 @@ def store_as_csv(parcels, output_file_path):
         for parcel in parcels:
             for point in parcel['path']:
                 csv_writer.writerow([parcel['cadastral_number'], point['su_nmb'], point['x'], point['y']])
-
-
-def get_parcels(input_file_path):
-    return clean_parcels(get_raw_parcels(parse_to_dict(input_file_path))),
-
-# sample_input_path = './data-samples/doc14350111.xml'
-# sample_output_path = './parcels.csv'
-
-# store_as_csv(get_parcels(input_path), output_path)
 
 
 if __name__ == '__main__':
