@@ -1,26 +1,53 @@
 import xmltodict
 
+
 def get_parcels_and_metadata(file_path):
     file_dict = _parse_to_dict(file_path)
     parcels = _clean_parcels(_get_raw_parcels(file_dict))
     metadata = _get_metadata(file_dict)
     return (parcels, metadata)
 
+
 def _get_metadata(file_dict):
     return {
-        'cadastral_number':
-        file_dict['KPT']['CadastralBlocks']['CadastralBlock']['@CadastralNumber']
+        'cadastral_number': _get_cadastral_block_number(file_dict),
+        'root_node_name': _get_root_node_name(file_dict)
     }
+
+def _get_cadastral_block_number(file_dict):
+    if _get_root_node_name(file_dict) == 'KPT':
+        return file_dict['KPT']['CadastralBlocks']['CadastralBlock']['@CadastralNumber']
+    if _get_root_node_name(file_dict) == 'KVZU':
+        return file_dict['KVZU']['Parcels']['Parcel']['CadastralBlock']
+            
 
 def _parse_to_dict(file_path):
     import xmltodict
     return xmltodict.parse(open(file_path).read())
 
+
+def _get_root_node_name(file_dict):
+    # return file_dict.keys()[0]
+    # results with a "'KeysView' object does not support indexing" error
+    # now using workaround below
+    for sample in ('KPT', 'KVZU'):
+        if sample in file_dict:
+            return sample
+
+
+def _find_parcel_node(file_dict):
+    if _get_root_node_name(file_dict) == 'KPT':
+        return file_dict['KPT']['CadastralBlocks']['CadastralBlock']['Parcels']['Parcel']
+    if _get_root_node_name(file_dict) == 'KVZU':
+        return file_dict['KVZU']['Parcels']['Parcel']
+
+
 def _get_raw_parcels(file_dict):
-    return [parcel for parcel
-            in file_dict['KPT']['CadastralBlocks']['CadastralBlock']['Parcels']['Parcel']
-            if 'EntitySpatial' in parcel
-           ]
+    if _get_root_node_name(file_dict) == 'KVZU':
+        return [_find_parcel_node(file_dict)]
+    if _get_root_node_name(file_dict) == 'KPT':
+        return [parcel for parcel in _find_parcel_node(file_dict) if 'EntitySpatial' in parcel]
+    return []
 
 
 def _clean_parcels(raw_parcels):

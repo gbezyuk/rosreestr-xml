@@ -10,15 +10,28 @@ def dump_dict_to_json(data):
     return json.dumps(data, sort_keys=True, indent=4)
 
 
+def _get_root_node_name(file_dict):
+    # return file_dict.keys()[0]
+    # results with a "'KeysView' object does not support indexing" error
+    # now using workaround below
+    for sample in ('KPT', 'KVZU'):
+        if sample in file_dict:
+            return sample
+
+
 def find_parcel_node(data):
-    if 'KPT' in data:
+    if get_root_node_name(data) == 'KPT':
         return data['KPT']['CadastralBlocks']['CadastralBlock']['Parcels']['Parcel']
-    if 'KVZU' in data:
+    if get_root_node_name(data) == 'KVZU':
         return data['KVZU']['Parcels']['Parcel']
 
 
-def get_raw_parcels(data):
-    return [parcel for parcel in find_parcel_node(data) if 'EntitySpatial' in parcel]
+def _get_raw_parcels(file_dict):
+    if _get_root_node_name(file_dict) == 'KVZU':
+        return [_find_parcel_node(file_dict)]
+    if _get_root_node_name(file_dict) == 'KPT':
+        return [parcel for parcel in _find_parcel_node(file_dict) if 'EntitySpatial' in parcel]
+    return []
 
 
 def clean_parcels(raw_parcels):
