@@ -29,8 +29,14 @@ def cadastral_block_upload(request, template_name='parcels/cadastral_block_uploa
     if request.method == 'POST':
         form = CadastralBlockFileUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            new_block = CadastralBlock.handle_uploaded_file(request.FILES['file'])
-            return redirect(new_block.get_absolute_url(), permanent=False)
+            files = request.FILES.getlist('files')
+            if len(files) == 1:
+                new_block = CadastralBlock.handle_uploaded_file(files[0])
+                return redirect(new_block.get_absolute_url(), permanent=False)
+            else:
+                for file in files:
+                    new_block = CadastralBlock.handle_uploaded_file(file)
+                return redirect('/', permanent=False)
     else:
         form = CadastralBlockFileUploadForm()
     return render_to_response(template_name, locals())
