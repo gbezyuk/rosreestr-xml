@@ -61,7 +61,8 @@ def _clean_parcels(raw_parcels):
             'y': point['ns3:Ordinate']['@Y']
             } for point in parcel['EntitySpatial']['ns3:SpatialElement']['ns3:SpelementUnit']]
         } for parcel in raw_parcels
-            if 'ns3:SpatialElement' in parcel['EntitySpatial']
+            if 'EntitySpatial' in parcel
+            and 'ns3:SpatialElement' in parcel['EntitySpatial']
             and 'ns3:SpelementUnit' in parcel['EntitySpatial']['ns3:SpatialElement']
            ]
 
