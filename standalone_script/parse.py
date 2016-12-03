@@ -65,7 +65,7 @@ if __name__ == '__main__':
     parser.add_argument("input_file_path", help="input xml file to parse", type=str)
     parser.add_argument("-c", "--csv_output_file_path", help="output csv file to export data", type=str)
     parser.add_argument("-j", "--json_output_file_path", help="output csv file to export data", type=str)
-    parser.add_argument("-H", "--html_output_file_path", help="create an html file with navigateable JSON representation", type=str)
+    parser.add_argument("-H", "--html_output_file_path", help="create an html file with inspectable JSON representation", type=str)
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")    
     args = parser.parse_args()
 
