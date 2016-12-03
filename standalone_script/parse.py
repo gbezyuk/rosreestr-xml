@@ -27,16 +27,27 @@ def find_parcel_node(data):
         return data['KVZU']['Parcels']['Parcel']
 
 
-def get_raw_parcels(file_dict):
-    if get_root_node_name(file_dict) == 'KVZU':
-        return [find_parcel_node(file_dict)]
-    if get_root_node_name(file_dict) == 'KPT':
-        return [parcel for parcel in find_parcel_node(file_dict) if 'EntitySpatial' in parcel]
-    return []
+def get_raw_parcels(file_dict, verbose=False):
+    root_node_name = get_root_node_name(file_dict)
+    if verbose:
+        print('root node name: %s' % root_node_name)
+    result = []
+    if root_node_name == 'KVZU':
+        result = [find_parcel_node(file_dict)]
+        if verbose:
+            print('%d parcels found' % len(result))
+    elif root_node_name == 'KPT':
+        result = [parcel for parcel in find_parcel_node(file_dict) if 'EntitySpatial' in parcel]
+        if verbose:
+            print('%d parcels found' % len(result))
+    else:
+        if verbose:
+            print('unknown root node')
+    return result
 
 
-def clean_parcels(raw_parcels):
-    return [{
+def clean_parcels(raw_parcels, verbose=False):
+    result = [{
         'cadastral_number': parcel['@CadastralNumber'],
         'path': [{
                 'su_nmb': point['@SuNmb'],
@@ -48,6 +59,9 @@ def clean_parcels(raw_parcels):
         and 'ns3:SpatialElement' in parcel['EntitySpatial']
         and 'ns3:SpelementUnit' in parcel['EntitySpatial']['ns3:SpatialElement']
     ]
+    if verbose:
+        print('%d parcels survived cleaning' % len(result))
+    return result
 
 
 def store_as_csv(parcels, output_file_path):
@@ -104,7 +118,7 @@ window.data = %s;
     if args.csv_output_file_path:
         if args.verbose:
             print("Extracting Parcels...")
-        parcels = clean_parcels(get_raw_parcels(document_as_dict))
+        parcels = clean_parcels(get_raw_parcels(document_as_dict, args.verbose), args.verbose)
         if args.verbose:
             print("Extracting Parcels DONE")
 
