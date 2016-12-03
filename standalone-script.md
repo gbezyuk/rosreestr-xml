@@ -23,7 +23,7 @@ cd standalone-script
 
 ## Экспорт JSON
 
-Если хочется сохранить JSON-дамп документа целиком, используйте параметр `-j`:
+Если хочется нужно получить JSON-дамп документа, используйте параметр `-j`:
 
 ```bash
 ./parse.py ./data-samples/doc14350111.xml -j ./output.json
@@ -37,7 +37,7 @@ cd standalone-script
 Собственно полезной нагрузкой является вытаскивание из XML-файлов информации об участках и её экспорт в CSV:
 
 ```bash
-./parse.py ./data-samples/doc14350111.xml -c ./output.csv -v
+./parse.py ./data-samples/doc14350111.xml -c ./output.csv
 ```
 
 Здесь мы уже получаем только нужную информацию.
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     parser.add_argument("input_file_path", help="input xml file to parse", type=str)
     parser.add_argument("-c", "--csv_output_file_path", help="output csv file to export data", type=str)
     parser.add_argument("-j", "--json_output_file_path", help="output csv file to export data", type=str)
-    parser.add_argument("-H", "--html_output_file_path", help="create an html file with navigateable JSON representation", type=str)
+    parser.add_argument("-H", "--html_output_file_path", help="create an html file with inspectable JSON representation", type=str)
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")    
     args = parser.parse_args()
 ```
